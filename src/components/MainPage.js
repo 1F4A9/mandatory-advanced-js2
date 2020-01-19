@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from "react-helmet";
 import GetAPI from '../api/GetAPI';
 import { Link } from 'react-router-dom';
+import DeleteNodeAPI from '../api/DeleteNodeAPI';
 
 import './MainPage.css';
 
@@ -14,52 +15,71 @@ class MainPage extends React.Component {
     }
 
     componentDidMount() {
-        GetAPI().then(data => this.setState({ API: data }));
+        GetAPI().then(response => {
+            if (response.status === 200) {
+                this.setState({ API: response.data })
+            } else {
+                console.log('404 ERROR, handle this shit')
+            }
+        });
+    }
+
+    callbackAPI(response) {
+        if (response.status === 404) {
+            // popup --> "movie with the supplied id does not exist"
+            console.log('beepboop: selected movie does not exist')
+        } else {
+            // rerender funktion här!!
+            console.log(response)
+        }
     }
 
     render() {
         const movies = this.state.API;
-        // const keys = [];
-        // const thead = keys.map(x => {<td>x</td>})
-        // if (movies.length >= 1) keys.push(Object.keys(movies[0]));
 
         console.log(movies)
 
         return (
             <main>
                 <Helmet>
-                    <title>Movies</title>
+                    <title>Home</title>
                 </Helmet>
                 <table>
                     <thead>
                         <tr>
-                            {/* {keys.length >= 1 ? thead : <td>TOMT!</td>} */}
-                            <td>Title</td>
-                            <td>Director</td>
-                            <td>Rating</td>
+                            <th>Title</th>
+                            <th>Director</th>
+                            <th>Rating</th>
+                            <th>Edit</th>
+                            <th>Details</th>
+                            <th>Remove</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {movies.map(x => {
+                        {movies.map(API => {
                             return (
-                                <tr key={x.id}>
-                                    <td>{x.title}</td>
-                                    <td>{x.director}</td>
-                                    <td>{x.rating}</td>
+                                <tr key={API.id}>
+                                    <td>{API.title}</td>
+                                    <td>{API.director}</td>
+                                    <td>{API.rating}</td>
                                     <td>
-                                        <Link to={`/edit/${x.id}`}>
+                                        <Link to={`/edit/${API.id}`}>
                                             <button>Edit</button>
                                         </Link>
                                     </td>
                                     <td>
-                                        <Link to={`/details/${x.id}`}>
+                                        <Link to={`/details/${API.id}`}>
                                             <button>Details</button>
                                         </Link>
                                     </td>
                                     <td>
-                                        <button>Delete</button>
+                                        <button 
+                                            onClick={() => DeleteNodeAPI(API.id, this.callbackAPI)}
+                                            >Delete
+                                        </button>
                                     </td>
-                                </tr>)
+                                </tr>
+                            )
                         })}
                     </tbody>
                 </table>
@@ -69,6 +89,3 @@ class MainPage extends React.Component {
 }
 
 export default MainPage;
-
-// 1. för varje objekt ska en ny <tr> renderas.
-// 2. för varje name/value pair ska en ny <td> renderas.

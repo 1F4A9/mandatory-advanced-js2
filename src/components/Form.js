@@ -13,6 +13,9 @@ const Form = ({ onRating, onInput, onSubmit, API = '', checked = false }) => {
                         type="text"
                         name="title"
                         defaultValue={API.title}
+                        minLength="1"
+                        maxLength="40"
+                        required
                     />
                 </div>
                 <div id="director">
@@ -22,6 +25,9 @@ const Form = ({ onRating, onInput, onSubmit, API = '', checked = false }) => {
                         type="text"
                         name="director"
                         defaultValue={API.director}
+                        minLength="1"
+                        maxLength="40"
+                        required
                     />
                 </div>
                 <div id="textarea">
@@ -30,11 +36,14 @@ const Form = ({ onRating, onInput, onSubmit, API = '', checked = false }) => {
                         name="description"
                         onInput={onInput}
                         defaultValue={API.description}
+                        minLength="1"
+                        maxLength="300"
+                        required
                     />
                 </div>
                 <div id="rating-container">
                     <div className="rating">
-                        <label>
+                            <label>
                             <input
                                 onChange={onRating}
                                 type="radio"

@@ -13,16 +13,15 @@ class AddPage extends React.Component {
             title: '',
             description: '',
             director: '',
-            rating: '',
+            rating: 0,
             redirect: false,
-            error: false,
+            invalidMovieObj: false,
         }
 
         this.onInput = this.onInput.bind(this);
         this.onRating = this.onRating.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.onRedirect = this.onRedirect.bind(this);
-        this.onError = this.onError.bind(this);
+        this.callbackAPI = this.callbackAPI.bind(this);
     }
 
     onInput(e) {
@@ -38,33 +37,30 @@ class AddPage extends React.Component {
         this.setState({ rating });
     }
 
-    onRedirect() {
-        this.setState({ redirect: true });
-    }
-
-    onError() {
-        this.setState({ error: true });
-        // gör en pop-up med error message
+    callbackAPI(response) {
+        if (response.status === 201) {
+            this.setState({ redirect: true });
+        } else {
+            this.setState({ invalidMovieObj: true })
+        }
     }
 
     onSubmit(e) {
         e.preventDefault();
 
-        const cbRedirect = this.onRedirect;
-        const cbError = this.onError;
-
         const { title, description, director, rating } = this.state;
 
-        PostAPI(title, description, director, rating, cbRedirect, cbError);
+        PostAPI(title, description, director, rating, this.callbackAPI);
     }
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
         return (
             <main>
+                {this.state.invalidMovieObj ? <p>BEEPBOOP ERROR!</p> : <span></span>}
                 <Helmet>
                     <title>Add Movie</title>
                 </Helmet>
-                <h1 className="show">Testar popup</h1>
+                <h1 className="show">Edit</h1>
                 <Form
                     onRating={this.onRating}
                     onInput={this.onInput}

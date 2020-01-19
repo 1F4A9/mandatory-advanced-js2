@@ -1,0 +1,23 @@
+nav {
+    background-color: palevioletred;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+nav li a:link, a:visited {
+    display: block;
+    padding: 16px 30px;
+    color: rgb(104, 8, 40);
+    text-decoration: none;
+    transition: 0.25s;
+  }
+  
+  a:hover, a:active {
+    background-color: rgb(212, 47, 102);
+  }

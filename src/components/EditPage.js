@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { Redirect } from 'react-router-dom';
 import GetAPI from '../api/GetAPI';
 import PutAPI from '../api/PutAPI';
 import Form from './Form';
@@ -12,21 +13,28 @@ class EditPage extends React.Component {
             title: '',
             description: '',
             director: '',
-            rating: '',
+            rating: 0,
+            redirect: false,
             checked: [ false, false, false, false, false ],
             firstPageLoad: true,
         }
         this.onInput = this.onInput.bind(this);
         this.onRating = this.onRating.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.callbackAPI = this.callbackAPI.bind(this);
     }
 
     componentDidMount() {
         const id = this.props.match.params.id;
 
         GetAPI(id)
-            .then(data => { 
-                this.setState({ API: data })
+            .then(response => { 
+                if (response.status === 200) {
+                    this.setState({ API: response.data })
+                } else {
+                    // popup --> "movie with the supplied id does not exist"
+                    console.log('beepboop: selected movie does not exist')
+                }
 
                 if (this.state.firstPageLoad) { 
                     this.setDefaultValues(this.state.API.rating)
@@ -47,7 +55,7 @@ class EditPage extends React.Component {
             description,
             director,
             rating,
-            firstPageLoad: false
+            firstPageLoad: false,
          })
     }
 
@@ -70,15 +78,20 @@ class EditPage extends React.Component {
         this.setState({ checked: ratings})
     }
 
+    callbackAPI() {
+        this.setState({ redirect: true })
+    }
+
     onSubmit(e) {
         e.preventDefault();
 
         const { title, description, director, rating } = this.state;
 
-        PutAPI(title, description, director, rating, this.state.API.id);
+        PutAPI(title, description, director, rating, this.state.API.id, this.callbackAPI);
     }
 
     render() {
+        if (this.state.redirect) return <Redirect to="/" />
         return (
             <main>
                 <Helmet>
