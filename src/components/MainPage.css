@@ -25,6 +25,10 @@ table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: rgb(9, 25, 116);
+  background-color: rgb(218, 92, 33);
   color: white;
+}
+
+#search {
+  margin-bottom: 30px;
 }

@@ -4,8 +4,6 @@ import { Redirect } from 'react-router-dom';
 import Form from './Form';
 import PostAPI from '../api/PostAPI';
 
-import './ErrorPopup.css';
-
 class AddPage extends React.Component {
     constructor(props) {
         super(props)
@@ -54,13 +52,19 @@ class AddPage extends React.Component {
     }
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
+
+        const invalidInput = (
+            <p>The input is invalid! <br/>
+            The title & director must be between 1 and 40 characters.<br/>
+            The description must be between 1 and 300 characters.</p>)
+            
         return (
             <main>
-                {this.state.invalidMovieObj ? <p>BEEPBOOP ERROR!</p> : <span></span>}
+                {this.state.invalidMovieObj ? invalidInput : <span></span>}
                 <Helmet>
                     <title>Add Movie</title>
                 </Helmet>
-                <h1 className="show">Edit</h1>
+                <h1 className="show">Add Movie</h1>
                 <Form
                     onRating={this.onRating}
                     onInput={this.onInput}

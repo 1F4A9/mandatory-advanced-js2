@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GetAPI from '../api/GetAPI';
 import PutAPI from '../api/PutAPI';
 import Form from './Form';
+import Error404 from './Error404';
 
 class EditPage extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class EditPage extends React.Component {
             director: '',
             rating: 0,
             redirect: false,
+            error404: false,
             checked: [ false, false, false, false, false ],
             firstPageLoad: true,
         }
@@ -22,6 +24,7 @@ class EditPage extends React.Component {
         this.onRating = this.onRating.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.callbackAPI = this.callbackAPI.bind(this);
+        this.callback404 = this.callback404.bind(this)
     }
 
     componentDidMount() {
@@ -32,8 +35,7 @@ class EditPage extends React.Component {
                 if (response.status === 200) {
                     this.setState({ API: response.data })
                 } else {
-                    // popup --> "movie with the supplied id does not exist"
-                    console.log('beepboop: selected movie does not exist')
+                    this.setState({ error404: true })
                 }
 
                 if (this.state.firstPageLoad) { 
@@ -82,6 +84,10 @@ class EditPage extends React.Component {
         this.setState({ redirect: true })
     }
 
+    callback404() {
+        this.setState({ error404: false })
+    }
+
     onSubmit(e) {
         e.preventDefault();
 
@@ -92,7 +98,8 @@ class EditPage extends React.Component {
 
     render() {
         if (this.state.redirect) return <Redirect to="/" />
-        return (
+
+        const main = (
             <main>
                 <Helmet>
                     <title>Edit Movie</title>
@@ -107,6 +114,7 @@ class EditPage extends React.Component {
                 />
             </main>
         )
+        return <> {this.state.error404 ? <Error404 callback404={this.callback404}/> : main} </>
     }
 }
 

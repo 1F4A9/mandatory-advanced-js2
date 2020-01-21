@@ -1,0 +1,95 @@
+#error-container {
+    height: 100vh;
+    background-image: linear-gradient(to bottom right, #CC2E5D, #FF5858);
+    position: relative;
+    z-index: 1;
+}
+
+#err-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
+}
+
+#err-container h1 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.2;
+    color: #FFF;
+    font-size: 320px;
+    font-weight: 900;
+    cursor: default;
+
+    animation: fadein 0.8s ease-out 1.5s forwards;
+    opacity: 0;
+    z-index: 1;
+}
+
+@keyframes fadein {
+    0% { opacity: 0; }
+    100% { opacity: 0.2; }
+}
+
+#err-container h2 {
+    color: #FFF;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 100px;
+    opacity: 0;
+
+    animation: slidedown 1s ease-out 0.5s forwards;
+    z-index: 1;
+}
+
+@keyframes slidedown {
+    0% { 
+        transform: translateY(-200px);
+        opacity: 0;
+    }
+    100% { 
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+#err-container #btn {
+    display: inline-block;
+    padding: 20px 40px;
+    background-color: #FFF;
+    color: #222;
+    font-weight: 700;
+    font-style: italic;
+    text-decoration: none;
+    border-radius: 999px;
+    font-size: 28px;
+    transition: 0.4s ease-out;
+    cursor: pointer;
+    z-index: 1;
+    opacity: 0;
+
+    animation: slideup 1s ease-out 0.5s forwards;
+    transform: translateY(200px);
+    z-index: 1;
+}
+
+@keyframes slideup {
+    0% {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+#err-container #btn:hover {
+    color: #FF5858;
+    box-shadow: 6px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
