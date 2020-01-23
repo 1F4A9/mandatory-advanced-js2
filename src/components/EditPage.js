@@ -42,7 +42,6 @@ class EditPage extends React.Component {
                     this.setDefaultValues(this.state.API.rating)
                 }
             })
-
     }
 
     setDefaultValues(currentRating) {

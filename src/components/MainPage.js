@@ -51,16 +51,17 @@ class MainPage extends React.Component {
         if (amount === 5) return '★★★★★'
     }
 
-    onChange(e) {
-         this.setState({ searchValue: e.target.value })
+    filterMovies() {
+        return this.state.API.filter(data => {
+            return data.title.toLowerCase().includes(this.state.searchValue) || data.director.toLowerCase().includes(this.state.searchValue)
+        })
     }
 
-    
+    onChange(e) {
+        this.setState({ searchValue: e.target.value.toLowerCase() })
+    }
 
     render() {
-        const movies = this.state.API;
-        console.log(this.state.searchValue)
-
         const main = (
             <main>
                 <Helmet>
@@ -85,7 +86,7 @@ class MainPage extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {movies.map(API => {
+                    {this.filterMovies().map(API => {
                             return (
                                 <tr key={API.id}>
                                     <td>{API.title}</td>
