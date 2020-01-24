@@ -34,7 +34,7 @@ class MainPage extends React.Component {
     }
 
     callbackAPI(response) {
-        if (response.status === 404) {
+        if (response.status === 204) {
             this.setState({ error404: true })
         } else {
             GetAPI().then(response => this.setState({ API: response.data }))
@@ -62,6 +62,7 @@ class MainPage extends React.Component {
     }
 
     render() {
+        console.log(this.state.error404)
         const main = (
             <main>
                 <Helmet>

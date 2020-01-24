@@ -24,6 +24,8 @@ class AddPage extends React.Component {
 
     onInput(e) {
         let name = e.target.name;
+
+        // .trim() ---> tar bort whitespaces
         if (name === 'title') this.setState({ title: e.target.value });
         if (name === 'description') this.setState({ description: e.target.value });
         if (name === 'director') this.setState({ director: e.target.value });
@@ -50,6 +52,7 @@ class AddPage extends React.Component {
 
         PostAPI(title, description, director, rating, this.callbackAPI);
     }
+
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
 
