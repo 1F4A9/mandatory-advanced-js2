@@ -35,8 +35,9 @@ class MainPage extends React.Component {
 
     callbackAPI(response) {
         if (response.status === 204) {
-            this.setState({ error404: true })
+            GetAPI().then(response => this.setState({ API: response.data }))
         } else {
+            this.setState({ error404: true })
             GetAPI().then(response => this.setState({ API: response.data }))
         }
     }
