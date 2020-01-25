@@ -7,8 +7,8 @@ const PutAPI = (title, description, director, rating, id, cb) => {
         director,
         rating
     })
-    .then(() => cb())
-    .catch((err) => console.log(err))
+    .then((response) => cb(response))
+    .catch((response) => cb(response))
 }
 
 export default PutAPI;

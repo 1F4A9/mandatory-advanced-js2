@@ -25,8 +25,8 @@ class MainPage extends React.Component {
         GetAPI().then(response => {
             if (response.status === 200) {
                 this.setState({ API: response.data })
-            } 
-        });
+            }
+        }).catch(err => console.log(err))
     }
 
     callback404() {

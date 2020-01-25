@@ -41,7 +41,7 @@ class EditPage extends React.Component {
                 if (this.state.firstPageLoad) { 
                     this.setDefaultValues(this.state.API.rating)
                 }
-            })
+            }).catch(err => console.log(err))
     }
 
     setDefaultValues(currentRating) {
@@ -79,8 +79,13 @@ class EditPage extends React.Component {
         this.setState({ checked: ratings})
     }
 
-    callbackAPI() {
-        this.setState({ redirect: true })
+    callbackAPI(response) {
+        if (response.status === 200) {
+            this.setState({ redirect: true })
+        } else {
+            console.log(response)
+            this.setState({ error404: true })
+        }
     }
 
     callback404() {
