@@ -8,7 +8,10 @@ const PostAPI = (title, description, director, rating, cb) => {
         rating
     })
     .then((response) => cb(response))
-    .catch((response) => cb(response))
+    .catch((err) => {
+        console.log(err)
+        cb(err)
+    })
 }
 
 export default PostAPI;
